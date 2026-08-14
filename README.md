@@ -1,5 +1,7 @@
 # DOM Mover
 
+[See the screenshare video](https://x.com/sergioxage/status/2088013384985813071)
+
 A vibe-coded sketch of a browser tool idea: visually direct changes to an existing page, then copy a structured brief for a coding agent.
 
 Move, resize, restyle, edit, duplicate, or remove page elements. Dom Mover records the direction behind those changes; it does not edit source code.
