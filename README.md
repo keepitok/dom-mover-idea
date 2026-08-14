@@ -2,9 +2,7 @@
 
 [See the screenshare video](https://x.com/sergioxage/status/2088013384985813071)
 
-A vibe-coded sketch of a browser tool idea: visually direct changes to an existing page, then copy a structured brief for a coding agent.
-
-Move, resize, restyle, edit, duplicate, or remove page elements. Dom Mover records the direction behind those changes; it does not edit source code.
+A vibe-coded sketch of a browser tool idea: inject `<script>` to any page, edit with mouse, then copy a prepared prompt for a coding agent to apply changes in code.
 
 ![Dom Mover in action](./dom-mover-screenshot.png)
 
