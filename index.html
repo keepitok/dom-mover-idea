@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dom Mover — a vibe-coded tool sketch</title>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --panel: #14161d;
+      --card: #1b1e27;
+      --ink: #e9ecf5;
+      --muted: #9aa3b2;
+      --brand: #6d5efc;
+      --brand-2: #22d3ee;
+      --line: rgba(255, 255, 255, .08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(1200px 600px at 70% -10%, rgba(109,94,252,.25), transparent 60%), var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    /* Header */
+    header.site {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(11, 12, 16, .7);
+      border-bottom: 1px solid var(--line);
+    }
+    nav.main {
+      display: flex; align-items: center; gap: 24px;
+      height: 64px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; }
+    .brand .dot { width: 22px; height: 22px; border-radius: 7px; background: linear-gradient(135deg, var(--brand), var(--brand-2)); }
+    nav.main .links { display: flex; gap: 22px; margin-left: 12px; }
+    nav.main .links a.nav-link { color: var(--muted); font-weight: 500; font-size: 15px; }
+    nav.main .links a.nav-link:hover { color: var(--ink); }
+    nav.main .spacer { flex: 1; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: 15px;
+      border: 1px solid transparent; cursor: pointer;
+    }
+    .btn.ghost { color: var(--ink); border-color: var(--line); background: transparent; }
+    .btn.cta { color: #fff; background: linear-gradient(135deg, var(--brand), #8b7bff); }
+
+    /* Hero */
+    section.hero { padding: 96px 0 72px; text-align: center; }
+    .badge-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 999px; border: 1px solid var(--line);
+      color: var(--muted); font-size: 13px; margin-bottom: 24px;
+    }
+    .hero h1 { font-size: 56px; line-height: 1.05; margin: 0 0 20px; letter-spacing: -1.5px; }
+    .hero h1 .grad { background: linear-gradient(120deg, var(--brand-2), var(--brand)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p.sub { font-size: 20px; color: var(--muted); max-width: 620px; margin: 0 auto 32px; }
+    .hero .actions { display: flex; gap: 14px; justify-content: center; }
+
+    /* Features */
+    section.features { padding: 40px 0 72px; }
+    .section-head { text-align: center; margin-bottom: 44px; }
+    .section-head h2 { font-size: 34px; margin: 0 0 10px; letter-spacing: -.5px; }
+    .section-head p { color: var(--muted); margin: 0; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .card {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+      padding: 26px 24px; text-align: center;
+    }
+    .card .ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; margin: 0 auto 16px; font-size: 20px; background: rgba(109,94,252,.15); }
+    .card h3 { margin: 0 0 8px; font-size: 19px; }
+    .card p { margin: 0; color: var(--muted); font-size: 15px; }
+
+    /* Testimonial */
+    section.quote { padding: 40px 0; }
+    blockquote.testimonial {
+      margin: 0; background: linear-gradient(135deg, rgba(109,94,252,.14), rgba(34,211,238,.08));
+      border: 1px solid var(--line); border-radius: 20px; padding: 40px;
+      text-align: center;
+    }
+    blockquote.testimonial p { font-size: 24px; line-height: 1.4; margin: 0 0 20px; letter-spacing: -.3px; }
+    .who { display: flex; align-items: center; gap: 12px; justify-content: center; color: var(--muted); }
+    .who .avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #f59e0b, #ef4444); }
+
+    /* Pricing */
+    section.pricing { padding: 72px 0; }
+    .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
+    .plan {
+      background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 30px 26px;
+      display: flex; flex-direction: column;
+    }
+    .plan.popular { border-color: var(--brand); box-shadow: 0 0 0 1px var(--brand); position: relative; }
+    .plan .tag { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--brand); color: #fff; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
+    .plan h3 { margin: 0 0 6px; font-size: 20px; }
+    .plan .price { font-size: 40px; font-weight: 800; margin: 8px 0 4px; letter-spacing: -1px; }
+    .plan .price span { font-size: 15px; font-weight: 500; color: var(--muted); }
+    .plan ul { list-style: none; padding: 0; margin: 20px 0; color: var(--muted); font-size: 15px; }
+    .plan ul li { padding: 7px 0; border-bottom: 1px solid var(--line); }
+    .plan .btn { width: 100%; margin-top: auto; }
+
+    /* Footer */
+    footer.site { border-top: 1px solid var(--line); padding: 40px 0; color: var(--muted); }
+    footer.site .cols { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+    footer.site h4 { color: var(--ink); font-size: 14px; margin: 0 0 12px; }
+    footer.site a { display: block; padding: 4px 0; font-size: 14px; }
+    footer.site .copyright { margin-top: 28px; font-size: 13px; }
+
+    @media (max-width: 820px) {
+      .grid, .plans { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 40px; }
+      nav.main .links { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="container">
+      <nav class="main">
+        <a class="brand" href="#"><span class="dot"></span> Dom Mover</a>
+        <div class="links">
+          <a class="nav-link" href="#features">The idea</a>
+          <a class="nav-link" href="#pricing">What it captures</a>
+          <a class="nav-link" href="#sketch">Prototype notes</a>
+        </div>
+        <div class="spacer"></div>
+        <a class="btn ghost" href="#sketch">Vibe-coded sketch</a>
+        <a class="btn cta" href="#features">Try the demo</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <span class="badge-pill">An exploratory browser-tool sketch</span>
+        <h1>Show a coding agent <span class="grad">what you mean</span></h1>
+        <p class="sub">Dom Mover lets you rearrange a live page and copy the visual direction behind your changes into a useful implementation brief.</p>
+        <div class="actions">
+          <a class="btn cta" href="#features">Start moving things</a>
+          <a class="btn ghost" href="#sketch">See the idea</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-head">
+          <h2>A rough interface for a clear handoff</h2>
+          <p>This page is the playground. Turn on Select, make a few changes, then copy the brief.</p>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <div class="ico">⚡</div>
+            <h3>Direct the page</h3>
+            <p>Move elements around the actual interface to express the composition you have in mind.</p>
+          </div>
+          <div class="card">
+            <div class="ico">🎯</div>
+            <h3>Capture the intent</h3>
+            <p>Changes become a concise record of what should change, rather than a screenshot to decode.</p>
+          </div>
+          <div class="card">
+            <div class="ico">🔗</div>
+            <h3>Hand it to an agent</h3>
+            <p>The copied prompt asks for a responsive, semantic implementation—not a literal pixel trace.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quote" id="sketch">
+      <div class="container">
+        <blockquote class="testimonial">
+          <p>“A vibe-coded sketch of a tool idea: use the page itself to give visual direction, then let a coding agent turn that direction into a thoughtful implementation.”</p>
+          <div class="who">
+            <span class="avatar"></span>
+            <span><strong>Dom Mover</strong> — prototype, not a product promise</span>
+          </div>
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+      <div class="container">
+        <div class="section-head">
+          <h2>What the sketch can capture</h2>
+          <p>Enough to communicate a design direction, without pretending to be a source editor.</p>
+        </div>
+        <div class="plans">
+          <div class="plan">
+            <h3>Position</h3>
+            <div class="price">Move</div>
+            <ul>
+              <li>Relative direction</li>
+              <li>Nearest intended neighbor</li>
+              <li>Context for the element</li>
+            </ul>
+            <a class="btn ghost" href="#features">Try it here</a>
+          </div>
+          <div class="plan popular">
+            <span class="tag">Core idea</span>
+            <h3>Intent</h3>
+            <div class="price">Brief</div>
+            <ul>
+              <li>Text and style changes</li>
+              <li>Resize and duplicate requests</li>
+              <li>Explicit removals</li>
+            </ul>
+            <a class="btn cta" href="#features">Make a change</a>
+          </div>
+          <div class="plan">
+            <h3>Implementation</h3>
+            <div class="price">Human</div>
+            <ul>
+              <li>Inspect the real code first</li>
+              <li>Use responsive layout rules</li>
+              <li>Choose CSS or DOM deliberately</li>
+            </ul>
+            <a class="btn ghost" href="#sketch">Read the note</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="container">
+      <div class="cols">
+        <div>
+          <a class="brand" href="#" style="margin-bottom:12px"><span class="dot"></span> Dom Mover</a>
+          <p style="max-width:240px;font-size:14px">A vibe-coded sketch for giving coding agents visual direction.</p>
+        </div>
+        <div>
+          <h4>Prototype</h4>
+          <a href="#features">Try the demo</a>
+          <a href="#pricing">What it captures</a>
+          <a href="#sketch">The idea</a>
+        </div>
+        <div>
+          <h4>Implementation</h4>
+          <a href="#features">Visual direction</a>
+          <a href="#pricing">Coding-agent brief</a>
+          <a href="#sketch">Responsive by default</a>
+        </div>
+        <div>
+          <h4>License</h4>
+          <a href="LICENSE">MIT License</a>
+        </div>
+      </div>
+      <div class="copyright">© 2026 Dom Mover. Released under the MIT License.</div>
+    </div>
+  </footer>
+
+  <!-- The whole library — one tag, no dependencies. -->
+  <script src="dom-mover.js"></script>
+</body>
+</html>
