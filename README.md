@@ -4,6 +4,8 @@ A vibe-coded sketch of a browser tool idea: visually direct changes to an existi
 
 Move, resize, restyle, edit, duplicate, or remove page elements. Dom Mover records the direction behind those changes; it does not edit source code.
 
+![Dom Mover in action](./dom-mover-screenshot.png)
+
 ## Try it
 
 Open [`index.html`](./index.html) in a browser, or add the script to a page:
