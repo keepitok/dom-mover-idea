@@ -12,6 +12,16 @@ Open [`index.html`](./index.html) in a browser, or add the script to a page:
 <script src="dom-mover.js"></script>
 ```
 
+1. Click **Select**, then move or edit the elements that should change.
+2. Click **Copy** to copy the recorded changes to your clipboard.
+3. Paste the result into a coding agent with a prompt like this:
+
+```text
+Implement the following Dom Mover directions. First inspect the relevant template and styles, explain the intent you infer, then make a responsive implementation. Treat captured offsets as visual direction, not literal pixel values.
+
+[paste the copied Dom Mover brief here]
+```
+
 This is an exploratory prototype, not a production-ready visual editor.
 
 ## License
